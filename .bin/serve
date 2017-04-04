@@ -26,6 +26,20 @@ var stream = Storage({
   chunk: process.env.PHANT_CHUNK || 500 * 1024 // 500k
 });
 
+process.on('SIGTERM', function() {
+  // Stop http listening
+  Phant.HttpServer.close();
+  console.log('CLOSING [SIGTERM]');
+  process.exit();
+});
+
+process.on('SIGINT', function() {
+  // Stop http listening
+  Phant.HttpServer.close();
+  console.log('CLOSING [SIGINT]');
+  process.exit();
+});
+
 var validator = Phant.Validator({
   metadata: meta
 });
